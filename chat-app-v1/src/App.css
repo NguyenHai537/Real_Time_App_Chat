@@ -1,0 +1,126 @@
+.App {
+  text-align: center;
+  font-size: 1.5rem;
+margin-left: 1rem;
+}
+
+input {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Thiết lập định dạng cho button khi được hover */
+button:hover {
+  background-color: #0069d9;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 60%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+label {
+  display: block;
+}
+
+.custom-input {
+  padding-bottom: 2%;
+}
+
+.custom-input-error label {
+  color: red;
+}
+
+.custom-input-error input {
+  border: 2px solid red;
+  border-radius: 4px;
+}
+
+.error {
+  color: red;
+  margin: 0;
+}
+
+.field-default {
+  border: 1px solid #ccc;
+}
+
+.field-error {
+  border: 2px solid red;
+}
+
+.error-message {
+  color: red;
+}
+
+/* Style sign in form */
+.container {
+  height: 70vh;
+  text-align: center;
+}
+ 
+.form-signin {
+  width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+ 
+.form-signin .checkbox {
+  font-weight: 400;
+}
+ 
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+ 
+.form-signin input[type="text"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+ 
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-signin .form-control {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.text-left {
+  text-align: left;
+}

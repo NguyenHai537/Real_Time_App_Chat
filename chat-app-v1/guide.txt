@@ -1,0 +1,35 @@
+npx create-react-app chat-app-v1
+cd chat-app-v1
+npm i react-router-dom formik yup
+
+npm i axios
+# Axios là một thư viện HTTP client sử dụng trong ứng dụng JavaScript. Cho phép 
+thực hiện các yêu cầu HTTP từ trình duyệt hoặc Node.js và xử lý các phản hồi dữ liệu.
+
+npm i --save bootstrap
+
+import vào index.js
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
+
+# Để gọi API đến backend, thì backend phải thêm @CrossOrigin, cho chạy đồng thời BE và FE
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
+
+# Ở FE dùng axios gọi API
+useEffect(() => {
+        axios
+            .get("http://localhost:8080/list")
+            .then(res => {
+                setState({users: res.data}); 
+            })
+            .catch(err => {
+                throw err;
+            })
+        },[]);
+
+
+npm i styled-components
+
+# Để thực hiện chức năng upload ảnh, thêm vào head của public/index.html
+<script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
