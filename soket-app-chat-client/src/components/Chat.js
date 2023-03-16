@@ -40,25 +40,24 @@ function Chat() {
     navigate(`/`);
   }
 
-  function HandleClickChat11(){
-    navigate(`/Chat1-1/${username}`)
+  function HandleClickChat11(e){
+    const value = e.currentTarget.getAttribute('value');
+    navigate(`/Chat1-1/${username}/${value}`)
   }
 
   const renderMess = listUser.map((user) => (
-    <li class="active">
-      <div class="d-flex bd-highlight" onClick={HandleClickChat11}>
-	  
+    <li class="active" onClick={HandleClickChat11} value={user} >
+      <div class="d-flex bd-highlight">
         <div class="img_cont">
           <img
             src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
             class="rounded-circle user_img"
-            />
+               />
           <span class="online_icon"> </span>
         </div>
         <div class="user_info">
-          <span>{user} </span>
-          <p>online</p>
-		  
+          <span >{user} </span>
+          <p >online</p>
         </div>		
       </div>
     </li>

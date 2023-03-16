@@ -12,7 +12,7 @@ const App = () => {
     <Routes>
       <Route  path="/" element={<Login />} />
       <Route  path="/chat/:username" element={<Chat />} />
-      <Route  path="/chat1-1/:username" element={<Chat11 />} />
+      <Route  path="/chat1-1/:username/:value" element={<Chat11 />} />
     </Routes>
     </BrowserRouter>
   );
