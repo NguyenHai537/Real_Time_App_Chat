@@ -12,6 +12,11 @@ const socketIo = require("socket.io")(server, {
 
 const listUser = [];
 
+// Code by Long
+let chatRoomUsers = [];
+let allUsers = [];
+// ======================
+
 socketIo.on("connection", (socket) => {
   console.log("New client connected " + socket.id);
 
@@ -30,6 +35,44 @@ socketIo.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log(socket.id + " disconnected");
   });
+
+  // Long Chat room socket
+  // Chat Room =====================================================
+  socket.on("join_chat", (data) => {
+    const { username, room } = data;
+    socket.join(room);
+    chatRoom = room;
+    allUsers.push({ id: socket.id, username, room });
+    chatRoomUsers = allUsers.filter((user) => user.room === room);
+    socket.to(room).emit("chatroom_users", chatRoomUsers);
+    console.log(chatRoomUsers);
+  });
+
+  socket.on("sendDataClient", (data) => {
+    const { message, username, room, date } = data;
+    io.in(room).emit("sendDataServer", data);
+    // console.log(data);
+  });
+
+  socket.on("leave_room", (data) => {
+    const { username, room } = data;
+    socket.leave(room);
+    allUsers = leaveRoom(socket.id, allUsers);
+    console.log(allUsers);
+  });
+
+  socket.on("disconnect", (data) => {
+    const { username } = data;
+    console.log("Client disconnect " + socket.id);
+    const user = allUsers.find((user) => user.id === socket.id);
+    if (user?.username) {
+      allUsers = leaveRoom(socket.id, allUsers);
+    }
+    if (allUsers.length > 0) {
+      console.log(allUsers);
+    } else console.log("Het roi");
+  });
+  // ========================================================
 });
 
 server.listen(3001, () => {
