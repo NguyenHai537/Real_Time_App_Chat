@@ -16,26 +16,35 @@ export default function ChatRoom() {
   const [users, setUsers] = useState([]);
 
   const renderMess = mess.map((m, index) => (
-    <div
-      key={index}
-      className={`${
-        m.username === username
-          ? "d-flex justify-content-end mb-4"
-          : "d-flex justify-content-start mb-4"
-      }`}
-    >
-      <div class="img_cont_msg">
-        <img
-          src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-          class="rounded-circle user_img_msg"
-          alt="avatar"
-        />
+    <>
+      <div
+        key={index}
+        className={`${
+          m.username === username
+            ? "d-flex justify-content-end mb-4"
+            : "d-flex justify-content-start"
+        }`}
+      >
+        <div class="img_cont_msg">
+          <img
+            src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+            class="rounded-circle user_img_msg"
+            alt="avatar"
+          />
+        </div>
+        { m.username === username ?
+        <div class="msg_cotainer bg-success text-white">
+          {m.message}
+          <span class="msg_time">{m.date}</span>
+        </div> 
+        :
+        <div class="msg_cotainer bg-primary text-white">
+          {m.message}
+          <span class="msg_time">{m.date}</span>
+        </div> 
+        }
       </div>
-      <div class="msg_cotainer">
-        {m.message}
-        <span class="msg_time">{m.date}</span>
-      </div>
-    </div>
+    </>
   ));
   const sendMessage = (e) => {
     if (message !== "") {
