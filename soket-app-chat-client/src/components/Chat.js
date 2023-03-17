@@ -22,8 +22,8 @@ function Chat() {
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(() => {
-    socketRef.current = socketIOClient.connect(host);
-    socketRef.current.emit("sendDataClient", username);
+      socketRef.current = socketIOClient.connect(host);
+      socketRef.current.emit("sendDataClient", username);
     socketRef.current.on("getlist", (data) => {
       setListUser(data);
     });
@@ -37,6 +37,7 @@ function Chat() {
       socketRef.current.off("get_room");
       // ===================================================
     };
+   
   }, []);
 
   // Coi, sửa thông tin user

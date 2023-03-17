@@ -25,8 +25,11 @@ socketIo.on("connection", (socket) => {
   console.log("New client connected " + socket.id);
 
   socket.on("sendDataClient", function (data) {
-    listUser.push(data);
-    socket.UserName = data;
+    if(listUser.indexOf(data) === -1){
+      listUser.push(data);
+      socket.UserName = data;
+    }
+    
     console.log(listUser);
     socketIo.sockets.emit("getlist", listUser);
     // Long add emit for get_room

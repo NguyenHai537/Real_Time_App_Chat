@@ -2,16 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-<<<<<<< HEAD
-// import "./Chat.css";
-// import "./index.css";
-=======
 import "./Chat.css";
-<<<<<<< HEAD
-=======
->>>>>>> 931d2994c0a38644cbcabf35b7ae942ed1cfe9eb
-
->>>>>>> 8c82ed876259b1a605cc0c085993056f39500149
 export default function ChatRoom() {
   const socketIO = useRef();
 
