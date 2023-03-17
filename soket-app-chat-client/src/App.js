@@ -10,13 +10,14 @@ import ChatRoom from "./components/ChatRoom";
 const App = () => {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route  path="/" element={<Login />} />
-      <Route  path="/chat/:username" element={<Chat />} />
-      <Route  path="/chat1-1/:username/:value" element={<Chat11 />} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/chat/:username" element={<Chat />} />
+        <Route path="/chat1-1/:username/:value" element={<Chat11 />} />
+        <Route path="/chatroom/:username/:room" element={<ChatRoom />} />
+      </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

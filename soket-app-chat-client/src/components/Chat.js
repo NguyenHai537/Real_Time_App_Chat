@@ -48,8 +48,13 @@ function Chat() {
   // Long them vao phan tao room va join vao room 8:08AM
   function HandleClickCreateRoom(e) {
     if (roomForm !== null || roomForm !== "") {
-      socketRef.current.emit("add_room", roomForm);
-      alert("Tao phong thanh cong");
+      if (rooms.indexOf(roomForm) !== -1) {
+        alert("Phong da ton tai");
+      } else {
+        socketRef.current.emit("add_room", roomForm);
+        alert("Tao phong thanh cong");
+        inputEle.current.value = "";
+      }
     }
   }
 
