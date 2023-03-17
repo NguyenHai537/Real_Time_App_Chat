@@ -82,10 +82,23 @@ function Chat() {
     navigate(`/`);
   }
 
+  //Quang xu ly chat 1-1
   function HandleClickChat11(e) {
-    const value = e.currentTarget.getAttribute("value");
-    const room = username + "_" + value;
-    navigate(`/Chat1-1/${username}/${room}`);
+    const clickedPerson = e.currentTarget.getAttribute("value");
+    const room = username + "_" + clickedPerson;
+    const data = {
+      username11: username, 
+      clickedPerson: clickedPerson,
+      room: room
+    }
+    socketRef.current.emit("join-room-11", data);
+    socketRef.current.on("send-room-exist", function (roomExist) {
+      navigate(`/chat1-1/${username}/${roomExist}`)
+    });
+    socketRef.current.on("send-room-new", function (roomNew) {
+      navigate(`/chat1-1/${username}/${roomNew}`)
+    });
+    
   }
 
   const renderMess = listUser.map((user) => (

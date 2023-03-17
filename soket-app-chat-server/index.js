@@ -14,6 +14,9 @@ const socketIo = require("socket.io")(server, {
 
 const listUser = [];
 
+//Quang them cac bien de dung cho chat 1-1
+let rooms11 = [];
+
 // Code by Long
 let chatRoomUsers = [];
 let allUsers = [];
@@ -32,6 +35,25 @@ socketIo.on("connection", (socket) => {
     socketIo.sockets.emit("get_room", rooms);
     //
   });
+
+  //Ben Chat.js khi user click vao avatar thi server tai vi tri nay se luu room 1-1
+  socket.on("join-room-11", (data) => {
+    let checkRoom = false;
+
+    rooms11.map(room => {
+      if (room.indexOf(data.username11) !== -1 && room.indexOf(data.clickedPerson) !== -1) {
+        socket.join(room)
+        checkRoom = true;
+        socket.emit("send-room-exist", room);
+      }
+    })
+
+    if (!checkRoom) {
+      rooms11.push(data.room);
+      socket.join(data.room)
+      socket.emit("send-room-new", data.room)
+    }
+  })
 
   socket.on("logout", () => {
     listUser.splice(listUser.indexOf(socket.UserName), 1);
