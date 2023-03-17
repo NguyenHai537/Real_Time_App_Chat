@@ -14,6 +14,7 @@ function Chat() {
   const [rooms, setRooms] = useState([]);
   const [roomForm, setRoomForm] = useState();
   const inputEle = useRef();
+  const tempRooms = [];
   // ===========================================
   let { username } = useParams();
   const socketRef = useRef();
@@ -48,8 +49,7 @@ function Chat() {
   function HandleClickCreateRoom(e) {
     if (roomForm !== null || roomForm !== "") {
       socketRef.current.emit("add_room", roomForm);
-      alert("Ban da tao phong thanh cong");
-      inputEle.current.value = "";
+      alert("Tao phong thanh cong");
     }
   }
 
