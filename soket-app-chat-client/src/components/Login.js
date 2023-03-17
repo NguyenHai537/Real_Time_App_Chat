@@ -22,8 +22,8 @@ export default function Login() {
           .then(res => {
             console.log(res.status)
             if(res.status === HttpStatusCode.Ok){
-                let resid = res.data.id;
-                navigate(`/chat/${username}`)
+                let res = res.data.id;
+                navigate(`/chat/${res.id}`)
             }
           })
           .catch(err => {
@@ -38,8 +38,6 @@ export default function Login() {
                 <div className="container d-flex align-items-center text-center">
                     <div className="form-signin">
                         <form>
-                            <img className="mb-0" src="https://i.pinimg.com/originals/4b/d8/9e/4bd89e38dca8c267a4bf540efb858f05.jpg" alt="" width="120" height="120" />
-                            <h1 className="h3 mb-3 fw-bold">Please sign in</h1>
                         <div className="form-floating">
                             <input onChange={(e) => handleInput(e.target.name, e.target.value)} type="text" className="form-control username" id="loginun" name = 'username'placeholder="Username" />
                             <label>Username</label>
@@ -47,11 +45,6 @@ export default function Login() {
                         <div className="form-floating">
                             <input onChange={(e) => handleInput(e.target.name, e.target.value)} type="password" className="form-control password" id="loginpw" name = 'password' placeholder="Password" />
                             <label>Password</label>
-                        </div>
-                        <div className="checkbox mb-3">
-                            <label>
-                                <input type="checkbox" /> Remember me
-                            </label>
                         </div>
                         <button className="w-100 btn btn-lg btn-primary" type="button" onClick={handleLogin}>Sign in</button>
                         </form>
