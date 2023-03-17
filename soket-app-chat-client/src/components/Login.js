@@ -1,38 +1,64 @@
-import React, { useState, useRef } from "react";
-import {useNavigate} from "react-router-dom"
-import socketIOClient from "socket.io-client";
-import './Login.css';
+import React, {useState} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import '../App.css'
+import axios, { HttpStatusCode } from 'axios';
 
+
+// Linh update Login
 export default function Login() {
 
-
-//Tung test git commit
-
-
-
-  
-
-    //Code cua Hai, a Tung sua thi dung xoa nhe
-    const [name, setName] = useState('');
     const navigate = useNavigate();
-    function HandleSubmit (){
-      navigate(`/chat/${name}`);
+    const [user, setUser] = useState(
+        {username: '',password: ''}
+    )
+    const handleInput = (key, value) => {
+        const newVal = {...user, [key]: value};
+        setUser(newVal);
+        console.log(newVal)
     }
 
-  
+    const handleLogin = (e) => {
+        e.preventDefault();
+        axios
+          .post("http://localhost:8080/signup", user)
+          .then(res => {
+            console.log(res.status)
+            if(res.status === HttpStatusCode.Ok){
+                let resp = res.data.username;
+                navigate(`/chat/${resp}`)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            throw err;
+          });
+    }
+
     return (
-      // Khuc nay a Tung xoa di, them code cua a vao
-      <div className="joinOuterContainer">
-        <div className="joinInnerContainer">
-          <h1 className="heading">Login</h1>
-          <div>
-            <input placeholder="Name" className="joinInput" type="text" onChange={(event) => setName(event.target.value)} />
-          </div>
-          <div>
-            <input placeholder="Password" className="joinInput mt-20" type="text" />
-          </div>
-            <button className={'button mt-20'} type="submit" onClick={HandleSubmit}>Sign In</button>      
-        </div>
-      </div>
-    );
-  }
+        <>
+            <div className="container text-center">
+            <h1 className="h1 mb-3 fw-large" style={{marginTop:'2rem'}}>ChatApp</h1>
+                <div className="container d-flex align-items-center text-center">
+                    <div className="form-signin">
+                        <form>
+                        <div className="form-floating">
+                            <input onChange={(e) => handleInput(e.target.name, e.target.value)} type="text" className="form-control username" id="loginun" name = 'username'placeholder="Username" />
+                            <label>Username</label>
+                        </div>
+                        <div className="form-floating">
+                            <input onChange={(e) => handleInput(e.target.name, e.target.value)} type="password" className="form-control password" id="loginpw" name = 'password' placeholder="Password" />
+                            <label>Password</label>
+                        </div>
+                        <button className="w-100 btn btn-lg btn-primary" type="button" onClick={handleLogin}>Sign in</button>
+                        </form>
+                    <Link to = '/signup'>
+                        <button className="w-100 btn btn-lg btn-primary" style={{backgroundColor: '#2CD551', marginTop:'1rem'}} type="button">Sign Up</button>
+                    </Link>
+                    <p className="mt-5 mb-3 text-muted">© C09-2023</p>
+                    </div>
+                 </div>
+            </div>
+        </>
+    )
+}
+
