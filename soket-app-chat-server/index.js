@@ -2,7 +2,9 @@ var express = require("express");
 const http = require("http");
 var app = express();
 const server = http.createServer(app);
-
+// Long them vao bien leaveRoom vao luc 8:05
+const leaveRoom = require("./utils/leave_room");
+// ===========================================
 const socketIo = require("socket.io")(server, {
   cors: {
     origin: "*",
@@ -15,6 +17,7 @@ const listUser = [];
 // Code by Long
 let chatRoomUsers = [];
 let allUsers = [];
+let rooms = [];
 // ======================
 
 socketIo.on("connection", (socket) => {
@@ -25,6 +28,9 @@ socketIo.on("connection", (socket) => {
     socket.UserName = data;
     console.log(listUser);
     socketIo.sockets.emit("getlist", listUser);
+    // Long add emit for get_room
+    socketIo.sockets.emit("get_room", rooms);
+    //
   });
 
   socket.on("logout", () => {
@@ -41,19 +47,28 @@ socketIo.on("connection", (socket) => {
   socket.on("join_chat", (data) => {
     const { username, room } = data;
     socket.join(room);
-    chatRoom = room;
     allUsers.push({ id: socket.id, username, room });
+    console.log(allUsers);
     chatRoomUsers = allUsers.filter((user) => user.room === room);
     socket.to(room).emit("chatroom_users", chatRoomUsers);
-    console.log(chatRoomUsers);
   });
 
   // sendDataClient dang duoc su dung o tren, Long doi ten lai de ko bi conflict!
-  // socket.on("sendDataClient", (data) => {
-  //   const { message, username, room, date } = data;
-  //   io.in(room).emit("sendDataServer", data);
-  //   // console.log(data);
-  // });
+  // Long 7:57AM da sua ten ========================
+  socket.on("sendDataFromRoom", (data) => {
+    const { message, username, room, date } = data;
+    socketIo.in(room).emit("sendDataToRoom", data);
+    // console.log(data);
+  });
+  // ==============================
+
+  // Long addRoom socket
+  socket.on("add_room", (data) => {
+    socket.room = data;
+    rooms.push(socket.room);
+    socketIo.sockets.emit("get_room", rooms);
+    console.log(rooms);
+  });
 
   socket.on("leave_room", (data) => {
     const { username, room } = data;
@@ -68,12 +83,16 @@ socketIo.on("connection", (socket) => {
     const user = allUsers.find((user) => user.id === socket.id);
     if (user?.username) {
       allUsers = leaveRoom(socket.id, allUsers);
+      // Long moi them vao cat mot phan tu sau khi disconnect
+      listUser.splice(listUser.indexOf(socket.UserName), 1);
+      socket.broadcast.emit("getlist", listUser);
+      // =========================
     }
     if (allUsers.length > 0) {
       console.log(allUsers);
     } else console.log("Het roi");
   });
-  // ========================================================
+  // Long end========================================================
 });
 
 server.listen(3001, () => {
