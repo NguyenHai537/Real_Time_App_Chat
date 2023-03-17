@@ -1,18 +1,9 @@
-<<<<<<< HEAD
 
 import React, { useState, useRef } from "react";
-import socketIOClient from "socket.io-client";
 import './Login.css';
     import { Link, useNavigate, useParams } from 'react-router-dom'
     import '../App.css'
     import axios, { HttpStatusCode } from 'axios';
-=======
-import React, {useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import '../App.css'
-import axios, { HttpStatusCode } from 'axios';
->>>>>>> de0692647cf70d6581b9871a8e9780dbcbed2e13
-
 
 // Linh update Login
 export default function Login() {
