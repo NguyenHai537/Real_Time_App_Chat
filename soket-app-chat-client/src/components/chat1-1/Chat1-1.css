@@ -2,9 +2,9 @@ body,
 html {
   height: 100%;
   margin: 0;
-  background: #7F7FD5;
-  background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-  background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+  background: #7f7fd5;
+  background: -webkit-linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
+  background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
 }
 
 .chat {
@@ -110,14 +110,12 @@ html {
   height: 70px;
   width: 70px;
   border: 1.5px solid #f5f6fa;
-
 }
 
 .user_img_msg {
   height: 40px;
   width: 40px;
   border: 1.5px solid #f5f6fa;
-
 }
 
 .img_cont {
@@ -249,7 +247,6 @@ html {
 
 .action_menu ul li i {
   padding-right: 10px;
-
 }
 
 .action_menu ul li:hover {
@@ -257,7 +254,7 @@ html {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-@media(max-width: 576px) {
+@media (max-width: 576px) {
   .contacts_card {
     margin-bottom: 15px !important;
   }
