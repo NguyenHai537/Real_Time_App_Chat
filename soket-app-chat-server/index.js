@@ -18,6 +18,7 @@ const listUser = [];
 let chatRoomUsers = [];
 let allUsers = [];
 let rooms = [];
+let message = "";
 // ======================
 
 socketIo.on("connection", (socket) => {
@@ -66,8 +67,9 @@ socketIo.on("connection", (socket) => {
   socket.on("add_room", (data) => {
     socket.room = data;
     rooms.push(socket.room);
-    socketIo.sockets.emit("get_room", rooms);
-    console.log(rooms);
+    socketIo.sockets.emit("get_room",rooms);
+    console.log(rooms)
+    
   });
 
   socket.on("leave_room", (data) => {

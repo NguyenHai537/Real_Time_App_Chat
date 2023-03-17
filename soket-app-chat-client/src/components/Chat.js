@@ -48,10 +48,18 @@ function Chat() {
   // Long them vao phan tao room va join vao room 8:08AM
   function HandleClickCreateRoom(e) {
     if (roomForm !== null || roomForm !== "") {
+     if(rooms.indexOf(roomForm) !== -1){
+      alert("Phong da ton tai")
+     }else{
       socketRef.current.emit("add_room", roomForm);
-      alert("Tao phong thanh cong");
+      alert("tao phong thanh cong");
+      inputEle.current.value = "";
+     }
+      
     }
   }
+
+
 
   const renderRooms = rooms.map((room) => (
     <li class="active" onClick={HandleClickChatRoom} value={room}>
