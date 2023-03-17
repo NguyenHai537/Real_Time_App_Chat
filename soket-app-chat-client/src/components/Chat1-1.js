@@ -3,8 +3,6 @@ import "./Chat.css";
 
 export default function Chat11(){
 
-	
-
     return(
         <div class="container-fluid h-100">
 			<div class="row justify-content-center h-100">

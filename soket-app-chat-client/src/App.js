@@ -1,10 +1,12 @@
 import React from 'react';
 
-import Chat from './components/Chat';
-import Login from './components/Login';
-import Chat11 from './components/Chat1-1';
+import Chat from './components/Chat'; 
+import Login from './components/Login'; 
+import Chat11 from './components/Chat1-1'; 
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import UserDetails from './components/UserDetails';
 
 const App = () => {
   return (
@@ -12,7 +14,7 @@ const App = () => {
     <Routes>
       <Route  path="/" element={<Login />} />
       <Route  path="/chat/:username" element={<Chat />} />
-      <Route  path="/chat1-1/:username" element={<Chat11 />} />
+      <Route  path="/chat1-1/:username/:value" element={<Chat11 />} />
     </Routes>
     </BrowserRouter>
   );

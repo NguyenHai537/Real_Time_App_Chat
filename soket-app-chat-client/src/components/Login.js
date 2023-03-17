@@ -11,6 +11,8 @@ export default function Login() {
 
 
   
+
+    //Code cua Hai, a Tung sua thi dung xoa nhe
     const [name, setName] = useState('');
     const navigate = useNavigate();
     function HandleSubmit (){
@@ -19,7 +21,7 @@ export default function Login() {
 
   
     return (
-
+      // Khuc nay a Tung xoa di, them code cua a vao
       <div className="joinOuterContainer">
         <div className="joinInnerContainer">
           <h1 className="heading">Login</h1>
