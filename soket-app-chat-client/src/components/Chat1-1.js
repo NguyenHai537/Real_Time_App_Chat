@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.css";
-import "./Chat.css";
+import "../css/Chat.css";
 
 export default function Chat11() {
   return (

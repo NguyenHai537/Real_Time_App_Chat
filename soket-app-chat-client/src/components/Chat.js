@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import "./Chat.css";
+import "../css/Chat.css";
 import socketIOClient from "socket.io-client";
 import { useNavigate } from "react-router-dom";
-import CreateRoom from "./CreateRoom";
 
 const host = "http://localhost:3001";
 
