@@ -7,8 +7,6 @@ import Chat11 from "./components/Chat1-1";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ChatRoom from "./components/ChatRoom";
 
-import UserDetails from './components/UserDetails';
-
 const App = () => {
   return (
     <BrowserRouter>
