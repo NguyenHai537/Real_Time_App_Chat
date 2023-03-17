@@ -85,7 +85,7 @@ socketIo.on("connection", (socket) => {
       console.log(allUsers);
     } else console.log("Het roi");
   });
-  // ========================================================
+  // Long end========================================================
 });
 
 server.listen(3001, () => {

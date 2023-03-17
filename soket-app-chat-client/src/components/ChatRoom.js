@@ -14,7 +14,7 @@ export default function ChatRoom() {
   const [mess, setMess] = useState([]);
   const [message, setMessage] = useState("");
   const messagesEnd = useRef();
-  // socketIO.current = io.connect("http://localhost:5000");
+
   const renderMess = mess.map((m, index) => (
     <>
       <div
