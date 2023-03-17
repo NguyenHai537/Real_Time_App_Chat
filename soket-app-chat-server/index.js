@@ -49,11 +49,13 @@ socketIo.on("connection", (socket) => {
   });
 
   // sendDataClient dang duoc su dung o tren, Long doi ten lai de ko bi conflict!
-  // socket.on("sendDataClient", (data) => {
-  //   const { message, username, room, date } = data;
-  //   io.in(room).emit("sendDataServer", data);
-  //   // console.log(data);
-  // });
+  // Long 7:57AM da sua ten ========================
+  socket.on("sendDataFromRoom", (data) => {
+    const { message, username, room, date } = data;
+    io.in(room).emit("sendDataToRoom", data);
+    // console.log(data);
+  });
+  // ==============================
 
   socket.on("leave_room", (data) => {
     const { username, room } = data;
