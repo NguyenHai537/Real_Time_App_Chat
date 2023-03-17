@@ -22,8 +22,8 @@ function Chat() {
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(() => {
-      socketRef.current = socketIOClient.connect(host);
-      socketRef.current.emit("sendDataClient", username);
+    socketRef.current = socketIOClient.connect(host);
+    socketRef.current.emit("sendDataClient", username);
     socketRef.current.on("getlist", (data) => {
       setListUser(data);
     });
@@ -37,7 +37,6 @@ function Chat() {
       socketRef.current.off("get_room");
       // ===================================================
     };
-   
   }, []);
 
   // Coi, sửa thông tin user
@@ -49,18 +48,15 @@ function Chat() {
   // Long them vao phan tao room va join vao room 8:08AM
   function HandleClickCreateRoom(e) {
     if (roomForm !== null || roomForm !== "") {
-     if(rooms.indexOf(roomForm) !== -1){
-      alert("Phong da ton tai")
-     }else{
-      socketRef.current.emit("add_room", roomForm);
-      alert("tao phong thanh cong");
-      inputEle.current.value = "";
-     }
-      
+      if (rooms.indexOf(roomForm) !== -1) {
+        alert("Phong da ton tai");
+      } else {
+        socketRef.current.emit("add_room", roomForm);
+        alert("tao phong thanh cong");
+        inputEle.current.value = "";
+      }
     }
   }
-
-
 
   const renderRooms = rooms.map((room) => (
     <li class="active" onClick={HandleClickChatRoom} value={room}>

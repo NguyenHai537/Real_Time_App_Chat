@@ -13,6 +13,7 @@ export default function ChatRoom() {
   const [mess, setMess] = useState([]);
   const [message, setMessage] = useState("");
   const messagesEnd = useRef();
+  const [users, setUsers] = useState([]);
 
   const renderMess = mess.map((m, index) => (
     <div
@@ -58,6 +59,9 @@ export default function ChatRoom() {
       setMess((oldMsg) => [...oldMsg, dataGot]);
       scrollToBottom();
     });
+    socketIO.current.on("chatroom_users", (data) => {
+      setUsers(data);
+    });
     return () => {
       socketIO.current.disconnect(username);
       socketIO.current.off("join_chat");
@@ -80,7 +84,7 @@ export default function ChatRoom() {
 
   const leave = (e) => {
     socketIO.current.emit("leave_room", { username, room });
-    navigate("/");
+    navigate(`/chat/${username}`);
   };
 
   return (
