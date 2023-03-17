@@ -83,7 +83,8 @@ function Chat() {
 
   function HandleClickChat11(e) {
     const value = e.currentTarget.getAttribute("value");
-    navigate(`/Chat1-1/${username}/${value}`);
+    const room = username + "_" + value;
+    navigate(`/Chat1-1/${username}/${room}`);
   }
 
   const renderMess = listUser.map((user) => (
