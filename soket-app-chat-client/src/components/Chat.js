@@ -10,10 +10,13 @@ const host = "http://localhost:3001";
 
 function Chat() {
   const [listUser, setListUser] = useState([]);
+  // Long 8:09AM Them vao bien danh sach phong
+  const [rooms, setRooms] = useState([]);
+  // ===========================================
   let { username } = useParams();
   const socketRef = useRef();
   const navigate = useNavigate();
-  const[isCreate, setIsCreate] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
 
   useEffect(() => {
     socketRef.current = socketIOClient.connect(host);
@@ -21,44 +24,55 @@ function Chat() {
     socketRef.current.on("getlist", (data) => {
       setListUser(data);
     });
+    socketRef.current.on("get_room", (data) => {
+      setRooms(data);
+    });
 
     return () => {
       socketRef.current.disconnect();
+      // Long: ngan chan duplicate du lieu tren mang chi vay
+      socketRef.current.off("get_room");
     };
   }, []);
 
-    function HandleClickViewProfile(){
-
+  function HandleClickViewProfile() {}
+  // Long them vao phan tao room va join vao room 8:08AM
+  function HandleClickCreateRoom(e) {
+    if (e.target.value !== "") {
+      socketRef.current.emit("add_room", e.target.value);
     }
+  }
 
-    // function HandleClickCreateRoom(){
-    
-    // }
+  function HandleClickJoinRoom(e) {
+    const value = e.currentTarget.getAttribute("value");
+    navigate(`/chatroom/${username}/${value}`);
+  }
+  // ====================================================
 
   function HandleClickLogout() {
     socketRef.current.emit("logout");
     navigate(`/`);
   }
 
-  function HandleClickChat11(e){
-    const value = e.currentTarget.getAttribute('value');
-    navigate(`/Chat1-1/${username}/${value}`)
+  function HandleClickChat11(e) {
+    const value = e.currentTarget.getAttribute("value");
+    navigate(`/Chat1-1/${username}/${value}`);
   }
 
   const renderMess = listUser.map((user) => (
-    <li class="active" onClick={HandleClickChat11} value={user} >
+    <li class="active" onClick={HandleClickChat11} value={user}>
       <div class="d-flex bd-highlight">
         <div class="img_cont">
           <img
             src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
             class="rounded-circle user_img"
-               />
+          />
           <span class="online_icon"> </span>
         </div>
         <div class="user_info">
-          <span >{user} </span>
-          <p >online</p>
-        </div>		
+          <span>{user} </span>
+          <p>online</p>
+        </div>
       </div>
     </li>
   ));
@@ -124,35 +138,74 @@ function Chat() {
               <img
                 src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
                 class="rounded-circle user_img mt-5"
-				style={{width:150, height:150}}
+                style={{ width: 150, height: 150 }}
               />
             </div>
-			<div style={{textAlign: "center"}} className="mt-4">
-				<button style={{width: 280, textAlign: "left"}} className="btn btn-info" type="button"  data-toggle="modal" data-target="#exampleModal"><i className="fas fa-plus"></i> Create room</button>
-				<button onClick={HandleClickViewProfile} style={{width: 280, textAlign: "left"}} className="btn btn-info mt-3"><i className="fas fa-user-edit"></i> Edit Profile</button>
-				<button onClick={HandleClickLogout} style={{width: 280, textAlign: "left"}} className="btn btn-info mt-3"><i className="fas fa-sign-out-alt"></i> Logout</button>
-			</div>
+            <div style={{ textAlign: "center" }} className="mt-4">
+              <button
+                style={{ width: 280, textAlign: "left" }}
+                className="btn btn-info"
+                type="button"
+                data-toggle="modal"
+                data-target="#exampleModal"
+              >
+                <i className="fas fa-plus"></i> Create room
+              </button>
+              <button
+                onClick={HandleClickViewProfile}
+                style={{ width: 280, textAlign: "left" }}
+                className="btn btn-info mt-3"
+              >
+                <i className="fas fa-user-edit"></i> Edit Profile
+              </button>
+              <button
+                onClick={HandleClickLogout}
+                style={{ width: 280, textAlign: "left" }}
+                className="btn btn-info mt-3"
+              >
+                <i className="fas fa-sign-out-alt"></i> Logout
+              </button>
+            </div>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-      
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Modal title
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">...</div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                      Save changes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

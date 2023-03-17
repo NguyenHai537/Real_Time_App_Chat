@@ -2,7 +2,9 @@ var express = require("express");
 const http = require("http");
 var app = express();
 const server = http.createServer(app);
-
+// Long them vao bien leaveRoom vao luc 8:05
+const leaveRoom = require("./utils/leave_room");
+// ===========================================
 const socketIo = require("socket.io")(server, {
   cors: {
     origin: "*",
@@ -15,6 +17,7 @@ const listUser = [];
 // Code by Long
 let chatRoomUsers = [];
 let allUsers = [];
+let rooms = [];
 // ======================
 
 socketIo.on("connection", (socket) => {
@@ -56,6 +59,13 @@ socketIo.on("connection", (socket) => {
     // console.log(data);
   });
   // ==============================
+
+  // Long addRoom socket
+  socket.on("add_room", (data) => {
+    const { room } = data;
+    rooms.push({ id: socket.id, room });
+    socket.emit("get_room", rooms);
+  });
 
   socket.on("leave_room", (data) => {
     const { username, room } = data;
