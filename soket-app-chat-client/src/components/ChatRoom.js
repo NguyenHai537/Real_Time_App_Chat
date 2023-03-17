@@ -2,10 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-<<<<<<< HEAD
-
-=======
->>>>>>> 0ee65242716a009a4f0b4e91e8267ba4479c1c5e
 import "./Chat.css";
 
 export default function ChatRoom() {
