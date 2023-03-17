@@ -21,14 +21,18 @@ let rooms11 = [];
 let chatRoomUsers = [];
 let allUsers = [];
 let rooms = [];
+let message = "";
 // ======================
 
 socketIo.on("connection", (socket) => {
   console.log("New client connected " + socket.id);
 
   socket.on("sendDataClient", function (data) {
-    listUser.push(data);
-    socket.UserName = data;
+    if(listUser.indexOf(data) === -1){
+      listUser.push(data);
+      socket.UserName = data;
+    }
+    
     console.log(listUser);
     socketIo.sockets.emit("getlist", listUser);
     // Long add emit for get_room
@@ -88,8 +92,9 @@ socketIo.on("connection", (socket) => {
   socket.on("add_room", (data) => {
     socket.room = data;
     rooms.push(socket.room);
-    socketIo.sockets.emit("get_room", rooms);
-    console.log(rooms);
+    socketIo.sockets.emit("get_room",rooms);
+    console.log(rooms)
+    
   });
 
   socket.on("leave_room", (data) => {

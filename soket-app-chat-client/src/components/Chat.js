@@ -14,6 +14,7 @@ function Chat() {
   const [rooms, setRooms] = useState([]);
   const [roomForm, setRoomForm] = useState();
   const inputEle = useRef();
+  const tempRooms = [];
   // ===========================================
   let { username } = useParams();
   const socketRef = useRef();
@@ -40,16 +41,20 @@ function Chat() {
 
   // Coi, sửa thông tin user
   function HandleClickViewProfile() {
-    navigate(`${username}`);
+    navigate(`/${username}/info`);
     console.log("Hello");
   }
 
   // Long them vao phan tao room va join vao room 8:08AM
   function HandleClickCreateRoom(e) {
     if (roomForm !== null || roomForm !== "") {
-      socketRef.current.emit("add_room", roomForm);
-      alert("Ban da tao phong thanh cong");
-      inputEle.current.value = "";
+      if (rooms.indexOf(roomForm) !== -1) {
+        alert("Phong da ton tai");
+      } else {
+        socketRef.current.emit("add_room", roomForm);
+        alert("tao phong thanh cong");
+        inputEle.current.value = "";
+      }
     }
   }
 
