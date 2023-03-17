@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "./Chat.css";
+import "./index.css";
 
 export default function ChatRoom() {
   const socketIO = useRef();
@@ -141,6 +142,7 @@ export default function ChatRoom() {
                   <img
                     src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
                     class="rounded-circle user_img_msg"
+                    alt="avatar"
                   />
                 </div>
                 <div class="msg_cotainer">
@@ -160,6 +162,7 @@ export default function ChatRoom() {
                   <img
                     src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
                     class="rounded-circle user_img_msg"
+                    alt="avatar"
                   />
                 </div>
                 <div class="msg_cotainer">

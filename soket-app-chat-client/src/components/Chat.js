@@ -32,8 +32,9 @@ function Chat() {
 
     return () => {
       socketRef.current.disconnect();
-      // Long: ngan chan duplicate du lieu tren mang chi vay
+      // Long: ngan chan duplicate du lieu, tren mang chi vay
       socketRef.current.off("get_room");
+      // ===================================================
     };
   }, []);
 
@@ -71,10 +72,10 @@ function Chat() {
   ));
 
   function HandleClickChatRoom(e) {
-    const value = e.currentTarget.getAttribute("room");
+    const value = e.currentTarget.getAttribute("value");
     navigate(`/chatroom/${username}/${value}`);
   }
-  // ====================================================
+  // Long end ====================================================
 
   function HandleClickLogout() {
     socketRef.current.emit("logout");

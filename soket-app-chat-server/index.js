@@ -15,9 +15,9 @@ const socketIo = require("socket.io")(server, {
 const listUser = [];
 
 // Code by Long
-const chatRoomUsers = [];
-const allUsers = [];
-const rooms = [];
+let chatRoomUsers = [];
+let allUsers = [];
+let rooms = [];
 // ======================
 
 socketIo.on("connection", (socket) => {
@@ -47,11 +47,10 @@ socketIo.on("connection", (socket) => {
   socket.on("join_chat", (data) => {
     const { username, room } = data;
     socket.join(room);
-    chatRoom = room;
     allUsers.push({ id: socket.id, username, room });
+    console.log(allUsers);
     chatRoomUsers = allUsers.filter((user) => user.room === room);
     socket.to(room).emit("chatroom_users", chatRoomUsers);
-    console.log(chatRoomUsers);
   });
 
   // sendDataClient dang duoc su dung o tren, Long doi ten lai de ko bi conflict!
@@ -84,6 +83,10 @@ socketIo.on("connection", (socket) => {
     const user = allUsers.find((user) => user.id === socket.id);
     if (user?.username) {
       allUsers = leaveRoom(socket.id, allUsers);
+      // Long moi them vao cat mot phan tu sau khi disconnect
+      listUser.splice(listUser.indexOf(socket.UserName), 1);
+      socket.broadcast.emit("getlist", listUser);
+      // =========================
     }
     if (allUsers.length > 0) {
       console.log(allUsers);
