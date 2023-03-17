@@ -15,9 +15,9 @@ const socketIo = require("socket.io")(server, {
 const listUser = [];
 
 // Code by Long
-let chatRoomUsers = [];
-let allUsers = [];
-let rooms = [];
+const chatRoomUsers = [];
+const allUsers = [];
+const rooms = [];
 // ======================
 
 socketIo.on("connection", (socket) => {
@@ -28,6 +28,9 @@ socketIo.on("connection", (socket) => {
     socket.UserName = data;
     console.log(listUser);
     socketIo.sockets.emit("getlist", listUser);
+    // Long add emit for get_room
+    socketIo.sockets.emit("get_room", rooms);
+    //
   });
 
   socket.on("logout", () => {
@@ -55,16 +58,17 @@ socketIo.on("connection", (socket) => {
   // Long 7:57AM da sua ten ========================
   socket.on("sendDataFromRoom", (data) => {
     const { message, username, room, date } = data;
-    io.in(room).emit("sendDataToRoom", data);
+    socketIo.in(room).emit("sendDataToRoom", data);
     // console.log(data);
   });
   // ==============================
 
   // Long addRoom socket
   socket.on("add_room", (data) => {
-    const { room } = data;
-    rooms.push({ id: socket.id, room });
-    socket.emit("get_room", rooms);
+    socket.room = data;
+    rooms.push(socket.room);
+    socketIo.sockets.emit("get_room", rooms);
+    console.log(rooms);
   });
 
   socket.on("leave_room", (data) => {

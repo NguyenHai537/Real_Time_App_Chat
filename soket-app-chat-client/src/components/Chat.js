@@ -12,6 +12,8 @@ function Chat() {
   const [listUser, setListUser] = useState([]);
   // Long 8:09AM Them vao bien danh sach phong
   const [rooms, setRooms] = useState([]);
+  const [roomForm, setRoomForm] = useState();
+  const inputEle = useRef();
   // ===========================================
   let { username } = useParams();
   const socketRef = useRef();
@@ -43,14 +45,33 @@ function Chat() {
 
   // Long them vao phan tao room va join vao room 8:08AM
   function HandleClickCreateRoom(e) {
-    const value = e.currentTarget.getAttribute("value");
-    if (value !== "") {
-      socketRef.current.emit("add_room", value);
+    if (roomForm !== null || roomForm !== "") {
+      socketRef.current.emit("add_room", roomForm);
+      alert("Ban da tao phong thanh cong");
+      inputEle.current.value = "";
     }
   }
 
-  function HandleClickJoinRoom(e) {
-    const value = e.currentTarget.getAttribute("value");
+  const renderRooms = rooms.map((room) => (
+    <li class="active" onClick={HandleClickChatRoom} value={room}>
+      <div class="d-flex bd-highlight">
+        <div class="img_cont">
+          <img
+            src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+            class="rounded-circle user_img"
+            alt="avatar"
+          />
+          <span class="online_icon"> </span>
+        </div>
+        <div class="user_info">
+          <span>{room} </span>
+        </div>
+      </div>
+    </li>
+  ));
+
+  function HandleClickChatRoom(e) {
+    const value = e.currentTarget.getAttribute("room");
     navigate(`/chatroom/${username}/${value}`);
   }
   // ====================================================
@@ -83,6 +104,12 @@ function Chat() {
       </div>
     </li>
   ));
+
+  // Long them vao function onChangeRoom
+  function OnChangeRoom(e) {
+    setRoomForm(e.target.value);
+  }
+  // =========================================
 
   return (
     <div class="container-fluid h-100">
@@ -134,7 +161,7 @@ function Chat() {
               </div>
             </div>
             <div class="card-body contacts_body">
-              <ui class="contacts">{renderMess}</ui>
+              <ui class="contacts">{renderRooms}</ui>
             </div>
             <div class="card-footer"></div>
           </div>
@@ -174,7 +201,7 @@ function Chat() {
                 <i className="fas fa-sign-out-alt"></i> Logout
               </button>
             </div>
-
+            {/*  Khuc nay la phan tao room */}
             <div
               class="modal fade"
               id="exampleModal"
@@ -187,7 +214,7 @@ function Chat() {
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">
-                      Modal title
+                      Create room
                     </h5>
                     <button
                       type="button"
@@ -198,7 +225,14 @@ function Chat() {
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body">...</div>
+                  <div class="modal-body">
+                    <input
+                      type={"text"}
+                      name="room"
+                      onChange={OnChangeRoom}
+                      ref={inputEle}
+                    ></input>
+                  </div>
                   <div class="modal-footer">
                     <button
                       type="button"
@@ -207,8 +241,12 @@ function Chat() {
                     >
                       Close
                     </button>
-                    <button type="button" class="btn btn-primary">
-                      Save changes
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onClick={HandleClickCreateRoom}
+                    >
+                      Add Room
                     </button>
                   </div>
                 </div>
