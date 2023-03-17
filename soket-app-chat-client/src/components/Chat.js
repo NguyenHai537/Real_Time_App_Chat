@@ -41,7 +41,7 @@ function Chat() {
 
   // Coi, sửa thông tin user
   function HandleClickViewProfile() {
-    navigate(`${username}`);
+    navigate(`/${username}/info`);
     console.log("Hello");
   }
 
