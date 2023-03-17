@@ -8,6 +8,7 @@ import axios, { HttpStatusCode } from 'axios';
 export default function Login() {
 
     const navigate = useNavigate();
+    
     const [user, setUser] = useState(
         {username: '',password: ''}
     )
@@ -20,7 +21,7 @@ export default function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
         axios
-          .post("http://localhost:8080/signup", user)
+          .post("http://localhost:8080/login", user)
           .then(res => {
             console.log(res.status)
             if(res.status === HttpStatusCode.Ok){
@@ -29,6 +30,7 @@ export default function Login() {
             }
           })
           .catch(err => {
+            alert("Username hoac password bi sai.");
             console.log(err)
             throw err;
           });
