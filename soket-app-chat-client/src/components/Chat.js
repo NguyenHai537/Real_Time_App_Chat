@@ -27,8 +27,10 @@ function Chat() {
     };
   }, []);
 
+  // Coi, sửa thông tin user 
     function HandleClickViewProfile(){
-
+        navigate(`${username}`)
+        console.log("Hello");
     }
 
     // function HandleClickCreateRoom(){
