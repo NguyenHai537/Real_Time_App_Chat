@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-// import "./Chat.css";
-// import "./index.css";
 
 export default function ChatRoom() {
   const socketIO = useRef();
@@ -15,16 +13,36 @@ export default function ChatRoom() {
   const [mess, setMess] = useState([]);
   const [message, setMessage] = useState("");
   const messagesEnd = useRef();
+  const [users, setUsers] = useState([]);
 
   const renderMess = mess.map((m, index) => (
     <>
       <div
         key={index}
         className={`${
-          m.username === username ? "your-message" : "other-people"
-        } chat-item`}
+          m.username === username
+            ? "d-flex justify-content-end mb-4"
+            : "d-flex justify-content-start"
+        }`}
       >
-        {m.username} {m.message} {m.date}
+        <div class="img_cont_msg">
+          <img
+            src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+            class="rounded-circle user_img_msg"
+            alt="avatar"
+          />
+        </div>
+        { m.username === username ?
+        <div class="msg_cotainer bg-success text-white">
+          {m.message}
+          <span class="msg_time">{m.date}</span>
+        </div> 
+        :
+        <div class="msg_cotainer bg-primary text-white">
+          {m.message}
+          <span class="msg_time">{m.date}</span>
+        </div> 
+        }
       </div>
     </>
   ));
@@ -50,6 +68,9 @@ export default function ChatRoom() {
       setMess((oldMsg) => [...oldMsg, dataGot]);
       scrollToBottom();
     });
+    socketIO.current.on("chatroom_users", (data) => {
+      setUsers(data);
+    });
     return () => {
       socketIO.current.disconnect(username);
       socketIO.current.off("join_chat");
@@ -72,7 +93,7 @@ export default function ChatRoom() {
 
   const leave = (e) => {
     socketIO.current.emit("leave_room", { username, room });
-    navigate("/");
+    navigate(`/chat/${username}`);
   };
 
   return (
@@ -86,91 +107,19 @@ export default function ChatRoom() {
                   <img
                     src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
                     class="rounded-circle user_img"
+                    alt="avatar"
                   />
                   <span class="online_icon"></span>
                 </div>
                 <div class="user_info">
-                  <span>Chat with Khalid</span>
-                  <p>1767 Messages</p>
+                  <span>{room}</span>
                 </div>
               </div>
               <span id="action_menu_btn">
-                <i class="fas fa-times-circle"></i>
+                <i class="fas fa-times-circle" onClick={leave}></i>
               </span>
             </div>
-            <div class="card-body msg_card_body">
-              <div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                  <img
-                    src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                    class="rounded-circle user_img_msg"
-                  />
-                </div>
-                <div class="msg_cotainer">
-                  Hi, how are you samim?
-                  <span class="msg_time">8:40 AM, Today</span>
-                </div>
-              </div>
-              <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send">
-                  Hi Khalid i am good tnx how about you?
-                  <span class="msg_time_send">8:55 AM, Today</span>
-                </div>
-                <div class="img_cont_msg"></div>
-              </div>
-              <div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                  <img
-                    src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                    class="rounded-circle user_img_msg"
-                  />
-                </div>
-                <div class="msg_cotainer">
-                  I am good too, thank you for your chat template
-                  <span class="msg_time">9:00 AM, Today</span>
-                </div>
-              </div>
-              <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send">
-                  You are welcome
-                  <span class="msg_time_send">9:05 AM, Today</span>
-                </div>
-                <div class="img_cont_msg"></div>
-              </div>
-              <div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                  <img
-                    src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                    class="rounded-circle user_img_msg"
-                    alt="avatar"
-                  />
-                </div>
-                <div class="msg_cotainer">
-                  I am looking for your next templates
-                  <span class="msg_time">9:07 AM, Today</span>
-                </div>
-              </div>
-              <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send">
-                  Ok, thank you have a good day
-                  <span class="msg_time_send">9:10 AM, Today</span>
-                </div>
-                <div class="img_cont_msg"></div>
-              </div>
-              <div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                  <img
-                    src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                    class="rounded-circle user_img_msg"
-                    alt="avatar"
-                  />
-                </div>
-                <div class="msg_cotainer">
-                  Bye, see you
-                  <span class="msg_time">9:12 AM, Today</span>
-                </div>
-              </div>
-            </div>
+            <div class="card-body msg_card_body">{renderMess}</div>
             <div class="card-footer">
               <div class="input-group">
                 <div class="input-group-append">
@@ -179,13 +128,15 @@ export default function ChatRoom() {
                   </span>
                 </div>
                 <textarea
-                  name=""
-                  class="form-control type_msg"
-                  placeholder="Type your message..."
+                  value={message}
+                  onKeyDown={onEnterPress}
+                  onChange={handleChange}
+                  className="form-control type_msg"
+                  placeholder="Nhập tin nhắn ..."
                 ></textarea>
                 <div class="input-group-append">
                   <span class="input-group-text send_btn">
-                    <i class="fas fa-location-arrow"></i>
+                    <i class="fas fa-location-arrow" onClick={sendMessage}></i>
                   </span>
                 </div>
               </div>
