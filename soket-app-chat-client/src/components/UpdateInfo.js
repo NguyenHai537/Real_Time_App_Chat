@@ -54,23 +54,23 @@ export default function UpdateInfo() {
   return (
     <div className="container text-left">
       <form onSubmit={handleSubmit}>
-        <h1>Account Update</h1>
+        <h1>Account Update</h1><br/>
         <label>
           Username:
           <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
-        </label>
+        </label><br/>
         <label>
           Email:
           <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
-        </label>
+        </label><br/>
         <label>
           Password:
           <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-        </label>
+        </label><br/>
         <label>
           Image:
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-        </label>
+        </label><br/>
         <button type="submit">Submit</button>
       </form>
     </div>

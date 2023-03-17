@@ -15,17 +15,17 @@ export default function Account() {
     )
     
     const navigate = useNavigate();
-    let {id} = useParams();
+    let {username} = useParams();
     //username này là biến trên url
 
 
     const handleUpdate = (user) => {
-       navigate(`/${id}/updateinfo`)
+       navigate(`/${username}/updateinfo`)
     }
 
     useEffect(() => {
         axios
-          .get(`http://localhost:8080/user/${id}`)
+          .get(`http://localhost:8080/${username}`)
           .then(res => {
             console.log(res.status)
             if(res.status === HttpStatusCode.Ok){
@@ -38,7 +38,7 @@ export default function Account() {
             console.log(err)
             throw err;
           });
-        },[id])
+        },[username])
 
     
     return (
@@ -46,11 +46,11 @@ export default function Account() {
             <h1>UserAccount</h1><br/>
             <form>
                 <img className="mb-0" src={resuser.image} alt="" width="120" height="120" /><br/>
-                <label>Username: {resuser.username}</label>
+                <label>Username: {resuser.username}</label><br/>
 
-                <label>Email: {resuser.email}</label>
+                <label>Email: {resuser.email}</label><br/>
          
-                <label>Password: {resuser.password}</label>
+                <label>Password: {resuser.password}</label><br/>
             
                 <button type='button' onClick={handleUpdate}>UpdateInfo</button>
             </form>
