@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import React, {useState} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import '../App.css'
 import axios, { HttpStatusCode } from 'axios';
 
@@ -16,23 +16,24 @@ export default function Login() {
         setUser(newVal);
         console.log(newVal)
     }
+
     const handleLogin = (e) => {
         e.preventDefault();
         axios
           .post("http://localhost:8080/signup", user)
-        //   console.log(reqUser)
           .then(res => {
             console.log(res.status)
             if(res.status === HttpStatusCode.Ok){
-                let res = res.data.id;
-                navigate(`/chat/${res.id}`)
+                let resp = res.data.username;
+                navigate(`/chat/${resp}`)
             }
           })
           .catch(err => {
             console.log(err)
             throw err;
           });
-        }
+    }
+
     return (
         <>
             <div className="container text-center">
