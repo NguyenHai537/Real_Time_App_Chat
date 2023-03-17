@@ -54,10 +54,17 @@ export default function Chat11() {
             alt="avatar"
           />
         </div>
+        { m.username === username ?
         <div class="msg_cotainer bg-success text-white">
           {m.message}
           <span class="msg_time">{m.date}</span>
-        </div>
+        </div> 
+        :
+        <div class="msg_cotainer bg-primary text-white">
+          {m.message}
+          <span class="msg_time">{m.date}</span>
+        </div> 
+        }
       </div>
     </>
   ));
