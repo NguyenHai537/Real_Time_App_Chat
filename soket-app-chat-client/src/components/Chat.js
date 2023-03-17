@@ -48,8 +48,13 @@ function Chat() {
   // Long them vao phan tao room va join vao room 8:08AM
   function HandleClickCreateRoom(e) {
     if (roomForm !== null || roomForm !== "") {
-      socketRef.current.emit("add_room", roomForm);
-      alert("Tao phong thanh cong");
+      if (rooms.indexOf(roomForm) !== -1) {
+        alert("Phong da ton tai");
+      } else {
+        socketRef.current.emit("add_room", roomForm);
+        alert("tao phong thanh cong");
+        inputEle.current.value = "";
+      }
     }
   }
 
@@ -82,9 +87,23 @@ function Chat() {
     navigate(`/`);
   }
 
+  //Quang xu ly chat 1-1
   function HandleClickChat11(e) {
-    const value = e.currentTarget.getAttribute("value");
-    navigate(`/Chat1-1/${username}/${value}`);
+    const clickedPerson = e.currentTarget.getAttribute("value");
+    const room = username + "_" + clickedPerson;
+    const data = {
+      username11: username, 
+      clickedPerson: clickedPerson,
+      room: room
+    }
+    socketRef.current.emit("join-room-11", data);
+    socketRef.current.on("send-room-exist", function (roomExist) {
+      navigate(`/chat1-1/${username}/${roomExist}`)
+    });
+    socketRef.current.on("send-room-new", function (roomNew) {
+      navigate(`/chat1-1/${username}/${roomNew}`)
+    });
+    
   }
 
   const renderMess = listUser.map((user) => (
