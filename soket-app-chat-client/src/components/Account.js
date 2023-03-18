@@ -43,13 +43,16 @@ export default function Account() {
         
         axios 
             .post(`http://localhost:8080/update-profile/${username}`, user)
-            .then(res =>
-                console.log(res.data);
-                if (res.status === HttpStatusCode.Ok) {
-                    navigate
-                }
-            )
-
+            .then((res) => {
+              // console.log(res.data);
+              if (res.status === HttpStatusCode.Ok) {
+                  navigate(`/${username}/info`);
+              }  
+            })
+            .catch(err => {
+              console.log(err)
+              throw err;
+            });
 
         setIsEdited(false);
     }
