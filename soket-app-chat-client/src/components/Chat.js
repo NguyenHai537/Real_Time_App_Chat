@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/Chat.css";
 import socketIOClient from "socket.io-client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import { HttpStatusCode } from "axios";
+import axios from "axios";
 
 const host = "http://localhost:3001";
 
 function Chat() {
+
   const [listUser, setListUser] = useState([]);
   // Long 8:09AM Them vao bien danh sach phong
   const [rooms, setRooms] = useState([]);
@@ -19,8 +22,27 @@ function Chat() {
   const socketRef = useRef();
   const navigate = useNavigate();
   const [isCreate, setIsCreate] = useState(false);
+  const [userImage, setUserImage] = useState('');
+  
+  
 
   useEffect(() => {
+    axios
+          .get(`http://localhost:8080/get-image/${username}`, {
+            username: username
+          })
+          .then(res => {
+            console.log(res.status)
+            if(res.status === HttpStatusCode.Ok){
+                setUserImage(res.data.image) ;
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            throw err;
+          });
+
+
     socketRef.current = socketIOClient.connect(host);
     socketRef.current.emit("sendDataClient", username);
     socketRef.current.on("getlist", (data) => {
@@ -189,7 +211,7 @@ function Chat() {
           <div class="card mb-sm-3 mb-md-0 contacts_card">
             <div style={{ textAlign: "center" }}>
               <img
-                src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+                src= {userImage}
                 class="rounded-circle user_img mt-5"
                 style={{ width: 150, height: 150 }}
                 alt="avatar"

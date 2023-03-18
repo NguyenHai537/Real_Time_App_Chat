@@ -18,6 +18,7 @@ export default function Login() {
         setUser(newVal);
         console.log(newVal)
     }
+
 // vào backend sửa Controller /signup sang /signin
     const handleSignin = (e) => {
         e.preventDefault();
@@ -37,7 +38,7 @@ export default function Login() {
     }
 
     const handleSignup =(e) => {
-        alert("Chưa làm")
+        navigate("/signup");
     }
 //anh Tùng sửa giao diện
     return (

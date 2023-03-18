@@ -1,5 +1,6 @@
 import React from 'react'
 import '../UpdateInfo.css'
+
 function UserDetails() {
     return (
         <body>
