@@ -3,14 +3,21 @@ import { useState, useEffect } from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import axios, { HttpStatusCode } from 'axios';
 import '../App.css';
+import '../css/Account.css';
 
 export default function Account() {
-    // const [user, setUser] = useState({})
+    const [user, setUser] = useState({
+        email: '',
+        phone: ''
+    })
+
+    const [isEdited, setIsEdited] = useState(false);
 
     const [resuser, setResuser] = useState(
         {username: '',
          email: '',
          password: '',
+         phone: '',
          image: ''}
     )
     
@@ -18,9 +25,33 @@ export default function Account() {
     let {username} = useParams();
     //username này là biến trên url
 
+    const handleChange = (e) => {
+        setUser({...user, [e.target.name] : e.target.value})
+    }
+
 
     const handleUpdate = (user) => {
-       navigate(`/${username}/updateinfo`)
+        setIsEdited(true);
+
+        // setIsEdited(false);
+
+    //    navigate(`/${username}/updateinfo`)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        axios 
+            .post(`http://localhost:8080/update-profile/${username}`, user)
+            .then(res =>
+                console.log(res.data);
+                if (res.status === HttpStatusCode.Ok) {
+                    navigate
+                }
+            )
+
+
+        setIsEdited(false);
     }
 
     useEffect(() => {
@@ -42,22 +73,122 @@ export default function Account() {
 
     
     return (
-        <div className="container text-center">
-            <h1>UserAccount</h1><br/>
-            <form>
-                <img className="mb-0" src={resuser.image} alt="" width="120" height="120" /><br/>
-                <label>Username: {resuser.username}</label><br/>
+        <div class="container">
+        <div class="row login_box">
+          <div class="col-md-12 col-xs-12" align="center">
+            <div class="outter">
+              <img src={resuser.image} class="image-circle" />
+            </div>
+            <h1>{resuser.username}</h1>
+          </div>
+    
+          <div class="col-md-12 col-xs-12 login_control">
+            <div class="control">
+              <div class="label">Email Address</div>
+              <input
+                name = 'email'
+                type="text"
+                disabled={!isEdited}
+                class="form-control"
+                placeholder={resuser.email}
+                onChange={handleChange}
+              />
+            </div>
+    
+            <div class="control">
+              <div class="label">Phone</div>
+              <input 
+                name = 'phone'
+                type="text" 
+                disabled={!isEdited} 
+                class="form-control" 
+                placeholder={resuser.phone} 
+                onChange={handleChange} />
+            </div>
+    
+            <div align="center">
+              <button 
+                hidden={isEdited} 
+                class="btn btn-orange" 
+                onClick={handleUpdate} 
+                placeholder={!isEdited ? "Edit Profile" : "Edit"}
+                >
+                Update Profile
+              </button>
 
-                <label>Email: {resuser.email}</label><br/>
-         
-                <label>Password: {resuser.password}</label><br/>
+              <button
+                class="btn btn-orange"
+                onClick={(e) => navigate(`/chat/${resuser.username}`)}>
+                Back to Chat
+              </button>
             
-                <button type='button' onClick={handleUpdate}>UpdateInfo</button>
-            </form>
+              <button 
+                hidden={!isEdited} 
+                class="btn btn-orange" 
+                onClick={handleSubmit}>
+                Edit!
+              </button>
+            </div>
+          </div>
         </div>
-        
+      </div>
+       
+//     <div class="container">
+//     <div class="row login_box">
+//       <div class="col-md-12 col-xs-12" align="center">
+//         <div class="outter">
+//           <img src={resuser.image} class="image-circle" />
+//         </div>
+//         <h1>{resuser.username}</h1>
+//       </div>
+
+//       <div class="col-md-12 col-xs-12 login_control">
+//         <div class="control">
+//           <div class="label">Email Address</div>
+//           <input
+//             type="text"
+//             disabled={!isEdited}
+//             class="form-control"
+//             placeholder={resuser.email}
+//           />
+//         </div>
+
+//         <div class="control">
+//           <div class="label">Phone</div>
+//           <input type="text" disabled={!isEdited} class="form-control" placeholder={resuser.phone} />
+//         </div>
+
+//         <div align="center">
+//           <button class="btn btn-orange" onClick={handleUpdate}>
+//           {!isEdited ? "Edit Profile" : "Edit"}
+//           </button>
+//           <button
+//             class="btn btn-orange"
+//             onClick={(e) => navigate(`/chat/${resuser.username}`)}
+//           >
+//             Back to Chat
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+   
     )
 }
+
+{/* <div className="container text-center">
+<h1>UserAccount</h1><br/>
+<form>
+    <img className="mb-0" src={resuser.image} alt="" width="120" height="120" /><br/>
+    <label>Username: {resuser.username}</label><br/>
+
+    <label>Email: {resuser.email}</label><br/>
+
+    <label>Phone: {resuser.phone}</label><br/>
+
+    <button type='button' onClick={handleUpdate}>UpdateInfo</button>
+</form>
+</div> */}
 
 
 // resuser không được cập nhật kịp thời sau khi hàm gọi API hoàn tất. Điều này xảy ra vì useEffect 
