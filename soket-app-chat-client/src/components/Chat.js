@@ -23,10 +23,13 @@ function Chat() {
   const navigate = useNavigate();
   const [isCreate, setIsCreate] = useState(false);
   const [userImage, setUserImage] = useState('');
-  
-  
+  const [searchUser, setSearchUser] = useState({});
 
+  
+  
   useEffect(() => {
+
+    // Linh và Tùng lấy hình ảnh avatar cho user
     axios
           .get(`http://localhost:8080/get-image/${username}`, {
             username: username
@@ -41,7 +44,6 @@ function Chat() {
             console.log(err)
             throw err;
           });
-
 
     socketRef.current = socketIOClient.connect(host);
     socketRef.current.emit("sendDataClient", username);
@@ -58,7 +60,9 @@ function Chat() {
       socketRef.current.off("get_room");
       // ===================================================
     };
-  }, []);
+
+    //Tung them [username]
+  }, [username]);
 
   // Coi, sửa thông tin user
   function HandleClickViewProfile() {
@@ -78,6 +82,24 @@ function Chat() {
       }
     }
   }
+
+
+  // CHUA LAM XONG
+  // Linh và Tùng thêm chức năng tìm user online thông qua username
+  // const searchByUsername = (searchUser) => {
+  //   axios
+  //         .get(`http://localhost:8080/get-online-user-by-username/${searchUser}`)
+  //         .then(res => {
+  //           console.log(res.status)
+  //           if(res.status === HttpStatusCode.Ok){
+  //             setSearchUser(res.data);
+  //           }
+  //         })
+  //         .catch(err => {
+  //           console.log(err)
+  //           throw err;
+  //         });
+  // }
 
   const renderRooms = rooms.map((room) => (
     <li class="active" onClick={HandleClickChatRoom} value={room}>
@@ -160,21 +182,25 @@ function Chat() {
             <h2 style={{ textAlign: "center", color: "wheat" }}>
               Danh Sach Online
             </h2>
-            <div class="card-header">
-              <div class="input-group">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  name=""
-                  class="form-control search"
-                />
-                <div class="input-group-prepend">
-                  <span class="input-group-text search_btn">
+            <form>
+              <div class="card-header">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    name="username"
+                    class="form-control search"
+                  />
+                  <div class="input-group-prepend">
+                    <span class="input-group-text search_btn">
                     <i class="fas fa-search"></i>
-                  </span>
+                      {/* <i class="fas fa-search" onClick={e => searchByUsername(searchUser)}></i> */}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </div>          
+            </form>
+
             <div class="card-body contacts_body">
               <ui class="contacts">{renderMess}</ui>
             </div>

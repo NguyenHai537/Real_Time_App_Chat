@@ -5,13 +5,14 @@ import * as Yup from "yup";
 import '../App.css';
 import axios from "axios";
 import styled from 'styled-components';
+
 // validationSchema trong Formik. Sử dụng thư viện bên thứ 3 là Yup để xác thực
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
     .matches(/^[a-zA-Z]{4,8}$/, "Username phải là chữ cái có từ 4-8 ký tự")
     .required("Username là bắt buộc"),
   email: Yup.string()
-    .email("Email không tồn tại")
+    .email("Email không hợp lệ.")
     .required("Email là bắt buộc"),
     phone: Yup.string()
     .matches(/^[0-9]{10,11}$/, "Phone phải là số, có từ 10 đến 11 ký tự.")
@@ -45,9 +46,15 @@ export default function SignUp() {
         }
 // _______________________________________________________________________________________________________
   return (
-    <div className="container text-center">
-      <h1 className="h1 mb-3 fw-large" style={{marginTop:'2rem'}}>Sign Up</h1>
-      <div className="form-signin text-left">
+    <div className="container text-center" style={{ 
+                backgroundImage: `url(https://res.cloudinary.com/dnevlrxnn/image/upload/v1679187881/z4193491013560_19bee4af6b06db42f2dfe531f6e93b4a_g1ujzf.jpg)`, 
+                backgroundPosition: 'center', 
+                backgroundSize: 'cover',
+                height: '100vh', 
+                position: 'relative' }}>
+      <div style={{ backgroundColor: 'rgba(0,0,0,0.5)', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+        <h1 className="h1 mb-3 fw-large" style={{ marginTop: '0', paddingTop: '2rem', color: '#fff' }}>Sign Up</h1>
+        <div className="form-signin text-left" style={{ maxWidth: '500px', margin: 'auto' }}>
     <Formik
       initialValues={{
         username: "",
@@ -100,10 +107,12 @@ export default function SignUp() {
             <Field id = 'cpw' name="confirmpassword" type='password' className = 'form-control'/>
             {errors.confirmpassword && touched.confirmpassword ? (<div className="error-message">{errors.confirmpassword}</div>) : null}
           </div>
-          <button type="submit" className="w-100 btn btn-lg btn-primary">Submit</button>
+          <br></br>
+          <button type="submit" className="w-100 btn btn-lg btn-success">Submit</button>
         </Form>
       )}
     </Formik>
+    </div>
     </div>
     </div>
   );

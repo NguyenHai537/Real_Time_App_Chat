@@ -1,4 +1,3 @@
-
 import '../css/UpdateUser.css';
 import React, { useState, useRef } from "react";
 import '../css/Login.css';
@@ -18,7 +17,6 @@ export default function Login() {
         setUser(newVal);
         console.log(newVal)
     }
-
 // vào backend sửa Controller /signup sang /signin
     const handleSignin = (e) => {
         e.preventDefault();
@@ -48,11 +46,11 @@ export default function Login() {
     <div class="row">
       <div class="col-lg-10 col-xl-9 mx-auto">
         <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
-          <div class="card-img-left d-none d-md-flex">
-
+          <div  >
+            <img style={{blockSize: '100%', paddingTop: '1em', borderRadius: '1.5em'}} src="https://res.cloudinary.com/dnevlrxnn/image/upload/v1679161065/z4193338523577_bb6d7f017c58bf405de9d6c7c8b81bc1_ycjwf7.jpg"/>
           </div>
           <div class="card-body p-4 p-sm-5">
-            <h1 class="card-title text-center mb-1 fw-light fs-1" style={{paddingBottom: '1em', fontWeight: 'bold', color:'white'}}>chatapp</h1>
+            <h1 class="card-title text-center mb-1 fw-light fs-1" style={{paddingBottom: '1em', fontWeight: 'bold', color:'white'}}>KONETO</h1>
             <form>
 
               <div class="form-floating mb-3">
@@ -68,13 +66,13 @@ export default function Login() {
               <hr/>
 
               <div class="d-grid mb-2">
-                <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" onClick={handleSignin} type="submit">Đăng nhập</button>
+                <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" style={{height: '3.5em'}} onClick={handleSignin} type="submit">Đăng nhập</button>
               </div>
 
               <hr class="my-4"/>
             
               <div class="d-grid mb-2">
-                <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" onClick={handleSignup} type="submit" style={{background: '#3DD129'}}>Tạo tài khoản mới</button>
+                <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" onClick={handleSignup} type="submit" style={{background: '#3DD129' , height: '3.5em'} }>Tạo tài khoản mới</button>
               </div>
             
             </form>
@@ -87,4 +85,3 @@ export default function Login() {
         </>
     )
 }
-
