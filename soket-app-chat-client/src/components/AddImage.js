@@ -9,8 +9,6 @@ export default function AddImage() {
 
   const [image, setImage] = useState(null);
 
-  const [user, setUser] = useState({});
-
   const navigate = useNavigate();
 
   let {username} = useParams();
@@ -46,7 +44,7 @@ export default function AddImage() {
       .catch((error) => {
         console.log(error);
       })
-      .finally(navigate(`/chat/${username}`));
+      // .finally(navigate(`/chat/${username}`));
       
   };
 
